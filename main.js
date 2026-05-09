@@ -249,7 +249,7 @@ window.openBookModal = (eventName) => {
   openModal('bookModal');
 };
 
-window.handleBook = (e) => {
+window.handleBook = async (e) => {
   e.preventDefault();
   const form = e.target;
 
@@ -274,22 +274,43 @@ window.handleBook = (e) => {
     return;
   }
 
-  const formData = new FormData(form);
+  const nameVal = nameInput.value.trim();
+  const emailVal = emailInput.value.trim();
+  const mobileVal = whatsappInput.value.trim();
+  const eventVal = form.querySelector('#bookEvent')?.value || '';
 
-  fetch(form.action, {
-    method: 'POST',
-    body: formData
-  })
-    .then(() => {
-      closeModal('bookModal');
-      showBookOverlay();
-      form.reset();
-    })
-    .catch(() => {
-      closeModal('bookModal');
-      showBookOverlay();
-      form.reset();
+  const payload = {
+    data: [{
+      'Full Name': nameVal,
+      'Email': emailVal,
+      'Mobile Number': mobileVal,
+      'Event': eventVal,
+      'SubmittedAt': new Date().toISOString()
+    }]
+  };
+
+  try {
+    const response = await fetch(SHEETDB_BOOKING_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
     });
+
+    if (!response.ok) {
+      throw new Error('SheetDB booking submission failed');
+    }
+
+    closeModal('bookModal');
+    showBookOverlay();
+    form.reset();
+  } catch (err) {
+    console.error('Booking form error:', err);
+    closeModal('bookModal');
+    showBookOverlay();
+    form.reset();
+  }
 };
 
 function showBookOverlay() {
@@ -791,7 +812,9 @@ function clearFormErrors(form) {
 }
 
 // ── SHEETDB CONFIG ──────────────────────────────────────────────
-const SHEETDB_API = 'https://sheetdb.io/api/v1/7xg1kjd78lg2t';
+// SheetDB endpoints
+const SHEETDB_CONTACT_API = 'https://sheetdb.io/api/v1/3xvptofeyrpgw';
+const SHEETDB_BOOKING_API = 'https://sheetdb.io/api/v1/9llygegz71d58';
 const SHEETDB_EMAIL = 'rahinakohusnah@gmail.com';
 
 // ── CONTACT FORM HANDLER ─────────────────────────────────────
@@ -844,17 +867,18 @@ window.handleContact = async (e) => {
   const formData = {
     data: [{
       'Full Name': nameInput.value.trim(),
-      'Email Address': emailInput.value.trim(),
+'Email': emailInput.value.trim(),
       'Mobile Number': mobileInput.value.trim(),
       'Company Name': form.querySelector('#company')?.value.trim() || '',
       'Message': messageInput.value.trim(),
-      'submittedAt': new Date().toISOString()
+      'SubmittedAt': new Date().toISOString()
     }]
   };
 
   try {
     // Submit to SheetDB
-    const response = await fetch(SHEETDB_API, {
+    const response = await fetch(SHEETDB_CONTACT_API, {
+
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

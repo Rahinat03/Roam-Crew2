@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rahinat03.github.io/Roam-Crew/sitemap.xml
+Sitemap: https://rahinat03.github.io/Roam-Crew2/sitemap.xml
