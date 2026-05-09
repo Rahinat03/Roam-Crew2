@@ -1269,6 +1269,13 @@ footer {
 }
 
 /* ===== FEATURE CARDS ===== */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
 .feature-card {
   background: var(--color-white);
   border-radius: 20px;
@@ -2751,3 +2758,44 @@ footer {
   }
 }
 
+/* ===== EXPANDED CONTENT ===== */
+.expanded-content {
+  margin-top: 4rem;
+  text-align: left;
+}
+
+.expanded-content__heading {
+  margin-bottom: 1rem;
+  font-family: var(--font-secondary, 'Playfair Display', serif);
+  font-size: 1.8rem;
+  color: var(--color-charcoal);
+}
+
+.expanded-content__list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 3rem;
+}
+
+.expanded-content__list-item {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* ===== FAQ SECTION ===== */
+.faq {
+  margin-bottom: 2rem;
+}
+
+.faq__question {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-charcoal);
+}
+
+.faq__answer {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
